@@ -12,6 +12,9 @@ public class ChatClientTCP
 
 	 private static Socket clientSocket;
 
+	 private String pseudo;
+	 
+	 private BufferedReader stdIn;
 	 
 	 private EnvoiThread envoiThread;
 	
@@ -21,9 +24,16 @@ public class ChatClientTCP
 		
 		try {
 			clientSocket = new Socket(host,new Integer(port).intValue());
-
-			envoiThread = new EnvoiThread(clientSocket);
 			
+			stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+			System.out.println("Veuillez entrer le pseudo vous identifiant sur le chat :");
+			String line=stdIn.readLine();
+			while (line==null) line=stdIn.readLine();
+			pseudo=line;
+			System.out.println("Maintenant "+pseudo+", vous allez voir l'historique des conversations précédentes puis vous pourrez entrer vos messages à envoyer :");
+
+			envoiThread = new EnvoiThread(pseudo,clientSocket);
 			receptionThread = new ReceptionThread(clientSocket);
 			
 			envoiThread.start();
@@ -77,6 +87,8 @@ public class ChatClientTCP
 	    			    
 		    try {
 				clientSocket.close();
+				envoiThread.stop();
+				receptionThread.stop();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

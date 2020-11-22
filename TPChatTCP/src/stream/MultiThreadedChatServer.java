@@ -20,16 +20,12 @@ import java.util.List;
 public class MultiThreadedChatServer extends Thread {
 
 	private ServerSocket connectionSocket;
-	
-	//id pour les clients ? plutot faire une hashmap ? avec directement les sockets ? 
-	
+		
 	private List<ClientThread> threadsClientConnectes;
-	
-	private int idClients;
-	
+
 	public MultiThreadedChatServer(String port) {
 		threadsClientConnectes = new ArrayList<ClientThread> ();
-		idClients=0;
+		
 		try {
 			connectionSocket = new ServerSocket(Integer.parseInt(port));
 		} catch (Exception e) {
@@ -55,30 +51,25 @@ public class MultiThreadedChatServer extends Thread {
 			while (true) {
 				Socket clientSocket = connectionSocket.accept();
 				System.out.println("Connexion from:" + clientSocket.getInetAddress());
-				ClientThread ct = new ClientThread(idClients,clientSocket,this);
+				
+				ClientThread ct = new ClientThread(clientSocket,this);
 				ct.start();
 				threadsClientConnectes.add(ct);
 				try {
-				      File myObj = new File("history.txt");
-				      if (myObj.createNewFile()) {
-				        System.out.println("File created: " + myObj.getName());
-				      } else {
-				        System.out.println("File already exists.");
-				        
-				           
+				     	File myObj = new File("history.txt");
+				        if (myObj.createNewFile()) {
+				        	System.out.println("File created: " + myObj.getName());
+				        } else {
+				        	System.out.println("File already exists.");
 				        }
-				      File file = new File("history.txt"); 
+				        File file = new File("history.txt"); 
 				        
 				        BufferedReader br = new BufferedReader(new FileReader(file)); 
 				        
 				        String st; 
 				        while ((st = br.readLine()) != null) {
-				        	
-				        		ct.envoyer(st);
-				        	
-				        	
+				    	    ct.envoyer(st);
 				        }
-				      
 				    } catch (IOException e) {
 				      System.out.println("An error occurred.");
 				      e.printStackTrace();
@@ -92,10 +83,18 @@ public class MultiThreadedChatServer extends Thread {
 	public void redirigerMessage(String message, ClientThread client) {
 		for(ClientThread c : threadsClientConnectes) {
 			if(client.getId()!=c.getId()) {
-				System.out.println("redirection de "+client.getId()+" a  "+c.getId()+" : "+message);
-				c.envoyer("Utilisateur "+c.getId()+" : "+message);
+				
+				message = client.definePseudo(message);
+				
+				System.out.println("redirection de "+client.getId()+" aï¿½ "+c.getId()+" : "+message);
+				
+				//c.envoyer("Utilisateur "+c.getId()+" : "+message);
+
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				this.history(dateFormat.format(new Date()) + " - Utilisateur "+c.getId()+" : "+message+ System.getProperty("line.separator"), "history.txt");
+				c.envoyer(dateFormat.format(new Date())+" - "+ client.getPseudo()+" : "+message);
+				//this.history(dateFormat.format(new Date()) + " - Utilisateur "+c.getId()+" : "+message+ System.getProperty("line.separator"), "history.txt");
+				this.history(dateFormat.format(new Date()) + " - "+client.getPseudo()+" : "+message+ System.getProperty("line.separator"), "history.txt");
+
 			}
 		}
 		

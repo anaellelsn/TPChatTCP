@@ -15,7 +15,7 @@ public class ClientThread
 	
 	private Socket communicationSocket;
 	
-	private int id;
+	private String pseudo;
 	
 	private BufferedReader socIn;
 	
@@ -23,9 +23,9 @@ public class ClientThread
 	
 	private MultiThreadedChatServer server;
 	
-	ClientThread(int id,Socket s,MultiThreadedChatServer server) {
+	ClientThread(Socket s,MultiThreadedChatServer server) {
 		this.communicationSocket = s;
-		this.id=id;
+		this.pseudo=null;
 		this.server=server;
 		try{
 			socIn = new BufferedReader(
@@ -62,6 +62,18 @@ public class ClientThread
 	
 	public void envoyer (String msg) {
 		socOut.println(msg);
+	}
+	
+	public String getPseudo() {
+		return pseudo;
+	}
+	
+	public String definePseudo(String msg) {
+		String res; 
+		int index = msg.indexOf("|");
+		if(pseudo==null) pseudo= msg.substring(0, index);
+		res=msg.substring(index+1,msg.length());
+		return res;
 	}
 
   

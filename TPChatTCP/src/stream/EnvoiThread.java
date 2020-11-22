@@ -7,12 +7,15 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class EnvoiThread extends Thread{
+	
+	private String pseudo;
 
 	private PrintStream socOut ;
 	
 	private BufferedReader stdIn;
 	
-	public EnvoiThread (Socket clientSocket) {
+	public EnvoiThread (String pseudo,Socket clientSocket) {
+		this.pseudo=pseudo;
 		try {
 			this.socOut= new PrintStream(clientSocket.getOutputStream());
 		} catch (IOException e) {
@@ -27,8 +30,11 @@ public class EnvoiThread extends Thread{
 			String line;
 			while(true) {
 				line=stdIn.readLine();
-				socOut.println(line);
-				System.out.println("me : "+line+"\r\n");
+				if(line!=null) {
+					socOut.println(pseudo+"|"+line);
+					System.out.println("moi : "+line+"\r\n");
+				}
+				
 			}
 		}catch(Exception e) {
 	    	System.err.println("EnvoiThread:" + e);
