@@ -49,6 +49,35 @@ public class ChatClientTCP
 		}
 	 }
 	 
+	 public ChatClientTCP(String pseudo,String host,String port) {
+			
+			try {
+				clientSocket = new Socket(host,new Integer(port).intValue());
+				
+				stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+//				System.out.println("Veuillez entrer le pseudo vous identifiant sur le chat :");
+//				String line=stdIn.readLine();
+//				while (line==null) line=stdIn.readLine();
+//				pseudo=line;
+//				System.out.println("Maintenant "+pseudo+", vous allez voir l'historique des conversations précédentes puis vous pourrez entrer vos messages à envoyer :");
+
+				envoiThread = new EnvoiThread(pseudo,clientSocket);
+				receptionThread = new ReceptionThread(clientSocket);
+				
+				envoiThread.start();
+			    receptionThread.start();
+				
+			} catch (UnknownHostException e) {
+				 System.err.println("Don't know about host:" + host);
+		         System.exit(1);
+			} catch (IOException e) {
+				System.err.println("Couldn't get I/O for "
+	                    + "the connection to:"+ host);
+				System.exit(1);
+			}
+		 }
+	 
 	 
 	 
 	 
@@ -89,10 +118,18 @@ public class ChatClientTCP
 				clientSocket.close();
 				envoiThread.stop();
 				receptionThread.stop();
+				this.stop();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    }
+	    
+	    public ReceptionThread getReceptionThread() {
+	    	return receptionThread;
+	    }
+	    public EnvoiThread getEnvoieThread() {
+	    	return envoiThread;
 	    }
 	    
 }

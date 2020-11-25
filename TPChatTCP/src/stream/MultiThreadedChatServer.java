@@ -101,8 +101,7 @@ public class MultiThreadedChatServer extends Thread {
 	}
 	
 	public void history(String message, String fileName) {
-		try { 
-			  
+		try {  
             // Open given file in append mode. 
             BufferedWriter out = new BufferedWriter( 
                    new FileWriter(fileName, true)); 
@@ -113,6 +112,8 @@ public class MultiThreadedChatServer extends Thread {
             System.out.println("exception occured" + e); 
         } 
 	}
+	
+
 	
 	
 	

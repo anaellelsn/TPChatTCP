@@ -30,7 +30,7 @@ public class EnvoiThread extends Thread{
 			String line;
 			while(true) {
 				line=stdIn.readLine();
-				if(line!=null) {
+				if((line!=null)&&(!line.isEmpty())) {
 					socOut.println(pseudo+"|"+line);
 					System.out.println("moi : "+line+"\r\n");
 				}
@@ -39,7 +39,11 @@ public class EnvoiThread extends Thread{
 		}catch(Exception e) {
 	    	System.err.println("EnvoiThread:" + e);
 	    }
-
+	}	
+	public void envoyerMessage(String msg) {
+		if((msg!=null)&&(!msg.isEmpty())) {
+			socOut.println(pseudo+"|"+msg);
+			System.out.println("moi : "+msg+"\r\n");
+		}
 	}
-	
 }
