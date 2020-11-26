@@ -12,7 +12,7 @@ public class ReceptionThread extends Thread{
 	
 	private BufferedReader socIn ;
 	
-	private final StringProperty content = new SimpleStringProperty(this, "content"); // NOI18N.
+	private final SimpleStringProperty content = new SimpleStringProperty(this, "content"); // NOI18N.
     
     public final String getContent() {
         return content.get();
@@ -22,7 +22,7 @@ public class ReceptionThread extends Thread{
         content.set(value);
     }
             
-    public final StringProperty nameProperty() {
+    public final StringProperty contentProperty() {
         return content;
     }
 
@@ -44,6 +44,7 @@ public class ReceptionThread extends Thread{
 			while(true) {
 				line=socIn.readLine();
 				setContent(line +"\r\n");
+				
 				System.out.println(line);
 			}
 			

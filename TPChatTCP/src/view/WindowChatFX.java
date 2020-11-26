@@ -1,5 +1,6 @@
 package view;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -21,7 +22,9 @@ import stream.ReceptionThread;
 
 public class WindowChatFX extends Application {
     
-	private ObservableList<ReceptionThread> listReception = FXCollections.observableArrayList();
+	//private ObservableList<ReceptionThread> listReception = FXCollections.observableArrayList();
+	private final ObservableList<ReceptionThread> listReception = FXCollections.observableArrayList(receptionThread -> new ObservableValue[]{receptionThread.contentProperty()});
+
 	
 	@Override
     public void start(Stage primaryStage) {
@@ -82,10 +85,7 @@ public class WindowChatFX extends Application {
                 }    
 	           
 	        });
-
-	        
-	       
-	        
+  
         	
             // create the structure again for the second GUI
             // Note that you CAN use the previous root and scene and just create a new Stage 
@@ -109,7 +109,7 @@ public class WindowChatFX extends Application {
             primaryStage.close(); // close the first stage (Window)
             btnDeconnection.setOnAction(e3->{
             	//close window and close threads 
-            	c.close();
+            	
             	StackPane root3 = new StackPane();
                 Label label3 = new Label("Your are disconnected from the chat !");
                 root3.getChildren().addAll(label3);
@@ -122,12 +122,11 @@ public class WindowChatFX extends Application {
                 thirdStage.setTitle("Chat");
                 thirdStage.show();
             	secondStage.close(); 
+            	c.close();
             });
         });
         
-       
-        
-        
+
         
 //        hb.setLayoutX(10);
 //        hb.setLayoutY(100);

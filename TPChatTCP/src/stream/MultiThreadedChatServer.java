@@ -95,6 +95,10 @@ public class MultiThreadedChatServer extends Thread {
 				//this.history(dateFormat.format(new Date()) + " - Utilisateur "+c.getId()+" : "+message+ System.getProperty("line.separator"), "history.txt");
 				this.history(dateFormat.format(new Date()) + " - "+client.getPseudo()+" : "+message+ System.getProperty("line.separator"), "history.txt");
 
+			} else {
+				message = client.definePseudo(message);
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				c.envoyer(dateFormat.format(new Date())+" - moi : "+message);
 			}
 		}
 		
