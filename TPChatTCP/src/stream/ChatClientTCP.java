@@ -20,6 +20,12 @@ public class ChatClientTCP
 	
 	 private ReceptionThread receptionThread;
 	 
+	 /**
+	  * Creates a chat client using an IP address for the host and a number of port
+	  * @param host
+	  * @param port
+	  */
+	 
 	 public ChatClientTCP(String host,String port) {
 		
 		try {

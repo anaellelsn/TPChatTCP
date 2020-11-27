@@ -23,6 +23,12 @@ public class ClientThread
 	
 	private MultiThreadedChatServer server;
 	
+	/**
+	 * Creates a thread for the client
+	 * @param s
+	 * @param server
+	 */
+	
 	ClientThread(Socket s,MultiThreadedChatServer server) {
 		this.communicationSocket = s;
 		this.pseudo=null;
@@ -39,7 +45,7 @@ public class ClientThread
 
  	/**
   	* receives a request from client then sends an echo to the client
-  	* @param clientSocket the client socket
+  	*
   	**/
 	public void run() {
     	  try {
@@ -60,13 +66,29 @@ public class ClientThread
         }
     }
 	
+	/**
+	 * Sends a message via the out socket
+	 * @param msg
+	 */
+	
 	public void envoyer (String msg) {
 		socOut.println(msg);
 	}
 	
+	/**
+	 * Getter of the attribute pseudo
+	 * @return pseudo
+	 */
+	
 	public String getPseudo() {
 		return pseudo;
 	}
+	
+	/**
+	 * Method to parse the user's name on the chat
+	 * @param msg
+	 * @return the user's pseudo
+	 */
 	
 	public String definePseudo(String msg) {
 		String res; 

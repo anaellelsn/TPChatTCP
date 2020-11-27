@@ -22,7 +22,10 @@ public class MultiThreadedChatServer extends Thread {
 	private ServerSocket connectionSocket;
 		
 	private List<ClientThread> threadsClientConnectes;
-
+	/**
+	 * Creates a server for the chat using a number of port
+	 * @param port
+	 */
 	public MultiThreadedChatServer(String port) {
 		threadsClientConnectes = new ArrayList<ClientThread> ();
 		
@@ -80,6 +83,11 @@ public class MultiThreadedChatServer extends Thread {
 	    }
 	}
 	
+	/**
+	 * Method to redirect a message from a client to the other clients
+	 * @param message
+	 * @param client
+	 */
 	public void redirigerMessage(String message, ClientThread client) {
 		for(ClientThread c : threadsClientConnectes) {
 			if(client.getId()!=c.getId()) {
@@ -100,6 +108,11 @@ public class MultiThreadedChatServer extends Thread {
 		
 	}
 	
+	/**
+	 * Adds a message to the file that models the history of the chat 
+	 * @param message
+	 * @param fileName
+	 */
 	public void history(String message, String fileName) {
 		try { 
 			  

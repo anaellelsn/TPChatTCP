@@ -9,6 +9,11 @@ public class ReceptionThread extends Thread{
 	
 	private BufferedReader socIn ;
 	
+	/**
+	 * Creates a thread to receive messages using the client socket
+	 * @param clientSocket
+	 */
+	
 	public ReceptionThread(Socket clientSocket) {
 		try {
 			this.socIn = new BufferedReader(

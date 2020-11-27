@@ -14,6 +14,11 @@ public class EnvoiThread extends Thread{
 	
 	private BufferedReader stdIn;
 	
+	/**
+	 * Creates a thread to send messages
+	 * @param pseudo
+	 * @param clientSocket
+	 */
 	public EnvoiThread (String pseudo,Socket clientSocket) {
 		this.pseudo=pseudo;
 		try {
