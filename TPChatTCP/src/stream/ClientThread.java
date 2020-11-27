@@ -7,6 +7,10 @@
 
 package stream;
 
+/**
+ * @author Anaelle Lesne & Agathe Liguori
+ */
+
 import java.io.*;
 import java.net.*;
 
